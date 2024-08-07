@@ -26,7 +26,7 @@ Este projeto foi desenvolvido em Java, onde o programa simula a construção de 
    git clone https://github.com/p1nheiros/arvore-binaria.git
 2. Navegue até o diretório do projeto:
    ```sh
-   cd arvore-binaria/ProjetoArvoreBinaria/Project
+   cd arvore-binaria/Project
 3. Compile os arquivos:
    ```sh
    javac Project/*.java
