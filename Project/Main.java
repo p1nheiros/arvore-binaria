@@ -39,17 +39,21 @@ public class Main {
                     // Remoção de um valor
                     System.out.print("Digite o valor para remover: ");
                     valor = scanner.nextInt();
-                    arvore.remover(valor);
-                    System.out.println("Valor removido se existia.");
+                    boolean removido = arvore.remover(valor);
+                    if (!removido) {
+                        if (valor == arvore.raiz.valor) {
+                            System.out.println("Nao e possivel remover a raiz diretamente.");
+                        } else {
+                            System.out.println("Valor " + valor + " nao encontrado na arvore.");
+                        }
+                    }
                     break;
                 case 4:
-                    // Percurso em Ordem
                     System.out.println("Percurso em Ordem:");
                     arvore.emOrdem();
                     System.out.println();  // Adiciona uma nova linha após o percurso
                     break;
                 case 5:
-                    // Percurso em Pre-Ordem
                     System.out.println("Percurso em Pre-Ordem:");
                     arvore.preOrdem();
                     System.out.println();  // Adiciona uma nova linha após o percurso
@@ -68,7 +72,7 @@ public class Main {
                     break;
                 case 8:
                     // Contar nós na árvore
-                    System.out.println("Numero de nos na arvore: " + arvore.contarNos());
+                    System.out.println("Numero de Nos na arvore: " + arvore.contarNos());
                     break;
                 case 9:
                     // Sair do programa
@@ -76,7 +80,7 @@ public class Main {
                     break;
                 default:
                     // Opção inválida
-                    System.out.println("Opção invalida. Tente novamente.");
+                    System.out.println("Opcao invalida.");
                     break;
             }
         } while (escolha != 9);

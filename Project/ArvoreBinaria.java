@@ -1,16 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-class No {
-    int valor;
-    No esquerdo, direito;
-
-    public No(int item) {
-        valor = item;
-        esquerdo = direito = null;
-    }
-}
-
 public class ArvoreBinaria {
     No raiz;  // Raiz da árvore
 
@@ -65,58 +55,28 @@ public class ArvoreBinaria {
         return valor < raiz.valor ? buscarRecursivo(raiz.esquerdo, valor) : buscarRecursivo(raiz.direito, valor);
     }
 
-    // Método para percorrer a árvore em ordem (inorder)
-    public void emOrdem() {
-        emOrdemRecursivo(raiz);
-    }
-
-    // Método recursivo para percorrer a árvore em ordem
-    private void emOrdemRecursivo(No raiz) {
-        if (raiz != null) {
-            emOrdemRecursivo(raiz.esquerdo);
-            System.out.print(raiz.valor + " ");
-            emOrdemRecursivo(raiz.direito);
-        }
-    }
-
-    // Método para percorrer a árvore em pré-ordem (preorder)
-    public void preOrdem() {
-        preOrdemRecursivo(raiz);
-    }
-
-    // Método recursivo para percorrer a árvore em pré-ordem
-    private void preOrdemRecursivo(No raiz) {
-        if (raiz != null) {
-            System.out.print(raiz.valor + " ");
-            preOrdemRecursivo(raiz.esquerdo);
-            preOrdemRecursivo(raiz.direito);
-        }
-    }
-
-    // Método para percorrer a árvore em pós-ordem (postorder)
-    public void posOrdem() {
-        posOrdemRecursivo(raiz);
-    }
-
-    // Método recursivo para percorrer a árvore em pós-ordem
-    private void posOrdemRecursivo(No raiz) {
-        if (raiz != null) {
-            posOrdemRecursivo(raiz.esquerdo);
-            posOrdemRecursivo(raiz.direito);
-            System.out.print(raiz.valor + " ");
-        }
-    }
-
     // Método para remover um valor da árvore
-    public void remover(int valor) {
+    public boolean remover(int valor) {
+        if (!buscar(valor)) {
+            System.out.println("Valor " + valor + " não encontrado na árvore.");
+            return false;
+        }
+
+        if (raiz != null && raiz.valor == valor) {
+            System.out.println("Não é possível remover a raiz diretamente.");
+            return false;
+        }
+
         raiz = removerRecursivo(raiz, valor);
+        System.out.println("Valor " + valor + " removido com sucesso.");
+        return true;
     }
 
     // Método recursivo para remover um valor da árvore
     private No removerRecursivo(No raiz, int valor) {
         // Se a raiz é null, retorna null
         if (raiz == null) {
-            return raiz;
+            return null;
         }
 
         // Se o valor a ser removido é menor, busca na subárvore esquerda
@@ -130,10 +90,17 @@ public class ArvoreBinaria {
         // Se o valor é igual ao valor do nó atual, este é o nó a ser removido
         else {
             // Nó com um filho ou nenhum filho
-            if (raiz.esquerdo == null)
+            if (isFolha(raiz)) {
+                System.out.println("Nó folha " + valor + " removido.");
+            } else {
+                System.out.println("Nó com filhos " + valor + " removido.");
+            }
+
+            if (raiz.esquerdo == null) {
                 return raiz.direito;
-            else if (raiz.direito == null)
+            } else if (raiz.direito == null) {
                 return raiz.esquerdo;
+            }
 
             // Nó com dois filhos: encontra o menor valor na subárvore direita
             raiz.valor = minValor(raiz.direito);
@@ -143,6 +110,10 @@ public class ArvoreBinaria {
         }
 
         return raiz;
+    }
+
+    private boolean isFolha(No no) {
+        return no.esquerdo == null && no.direito == null;
     }
 
     // Método para encontrar o menor valor em uma subárvore
@@ -166,6 +137,45 @@ public class ArvoreBinaria {
             return 0;
         }
         return 1 + contarNosRecursivo(raiz.esquerdo) + contarNosRecursivo(raiz.direito);
+    }
+
+    // Método para percorrer a árvore em ordem
+    public void emOrdem() {
+        emOrdemRecursivo(raiz);
+    }
+
+    private void emOrdemRecursivo(No raiz) {
+        if (raiz != null) {
+            emOrdemRecursivo(raiz.esquerdo);
+            System.out.print(raiz.valor + " ");
+            emOrdemRecursivo(raiz.direito);
+        }
+    }
+
+    // Método para percorrer a árvore em pré-ordem
+    public void preOrdem() {
+        preOrdemRecursivo(raiz);
+    }
+
+    private void preOrdemRecursivo(No raiz) {
+        if (raiz != null) {
+            System.out.print(raiz.valor + " ");
+            preOrdemRecursivo(raiz.esquerdo);
+            preOrdemRecursivo(raiz.direito);
+        }
+    }
+
+    // Método para percorrer a árvore em pós-ordem
+    public void posOrdem() {
+        posOrdemRecursivo(raiz);
+    }
+
+    private void posOrdemRecursivo(No raiz) {
+        if (raiz != null) {
+            posOrdemRecursivo(raiz.esquerdo);
+            posOrdemRecursivo(raiz.direito);
+            System.out.print(raiz.valor + " ");
+        }
     }
 
     // Método para percorrer a árvore em nível
